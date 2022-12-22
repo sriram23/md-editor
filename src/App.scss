@@ -1,3 +1,11 @@
-.main-container {
-    border: 2px solid red;
+@import url("https://fonts.googleapis.com/css2?family=Exo+2&family=Reggae+One&display=swap");
+body {
+    padding: unset;
+    margin: unset;
 }
+.main-container {
+    height: 100vh;
+}
+* {
+    font-family: "Exo 2", sans-serif;
+  }

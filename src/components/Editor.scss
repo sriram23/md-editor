@@ -1,6 +1,8 @@
 .editor-container {
     display: flex;
-    height: 90vh;
+    pre {
+        border-radius: 1rem;
+    }
     .editor {
         flex: 1;
         padding: 1rem;

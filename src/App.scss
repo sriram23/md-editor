@@ -4,7 +4,17 @@ body {
     margin: unset;
 }
 .main-container {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
+}
+.alert {
+    color: red;
+    margin: 0.5rem;
+    padding: 1rem;
+    border: 1px solid red;
+    border-radius: 0.5rem;
+    background: #ff000033;
 }
 * {
     font-family: "Montserrat", sans-serif;

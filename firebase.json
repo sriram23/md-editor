@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "md-editor",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -34,6 +34,7 @@ const Editor = () => {
   return (
     <div className="editor-container">
       <div className="editor">
+        <h2>Editor</h2>
         <textarea
           className="text-area"
           ref={textRef}
@@ -44,6 +45,7 @@ const Editor = () => {
         ></textarea>
       </div>
       <div className="renderer">
+        <h2>Preview</h2>
         <ReactMarkdown>{md.value}</ReactMarkdown>
       </div>
     </div>

@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import Prism from "prismjs";
 
 import "./Editor.scss";
-import PLACEHOLDER from "../static/defaultMd";
 
 const Editor = () => {
-  const spaces = 4
-  const [md, setMd] = useState({value: PLACEHOLDER, caret: -1, target: null});
+  const [md, setMd] = useState({value: "", caret: -1, target: null});
+  const textRef =  useRef()
   useEffect(() => {
     Prism.highlightAll();
   });
   useEffect(() => {
-
-    if(md.caret >= 0){
-
-        md.target.setSelectionRange(md.caret + spaces, md.caret + spaces);
-
-    }
-
-}, [md]);
+    textRef.current.selectionStart = md.caret 
+  }, [md])
   const handleKeyChange = (e) => {
-    setMd({value: e.target.value, caret: -1, target: e.target})
+    setMd({value: e.target.value, caret: e.target.selectionStart, target: e.target})
   }
   const handleTab = (e) => {
     let content = e.target.value;
     let caret   = e.target.selectionStart;
     if(e.key === "Tab"){
-      console.log("Tab is pressed")
       e.preventDefault()
-      let newText = content.substring(0, caret) + ' '.repeat(spaces) + content.substring(caret);
-      setMd({value: newText, caret: caret, target: e.target});
+      let newText = content.substring(0, caret) + '\t' + content.substring(caret);
+      setMd({value: newText, caret: caret+1, target: e.target});
+    } else {
+      setMd((pr) => ({
+        ...pr,
+        caret,
+        target: e.target
+      }))
     }
   }
   return (
@@ -38,6 +36,7 @@ const Editor = () => {
       <div className="editor">
         <textarea
           className="text-area"
+          ref={textRef}
           placeholder="Your markdown content goes here..."
           onChange={handleKeyChange}
           onKeyDown={handleTab}

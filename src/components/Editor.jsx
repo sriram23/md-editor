@@ -46,7 +46,7 @@ const Editor = () => {
       </div>
       <div className="renderer">
         <h2>Preview</h2>
-        <ReactMarkdown>{md.value}</ReactMarkdown>
+        <ReactMarkdown className="react-markdown">{md.value}</ReactMarkdown>
       </div>
     </div>
   );

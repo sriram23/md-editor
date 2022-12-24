@@ -8,11 +8,13 @@
     .editor {
         display: flex;
         flex-direction: column;
+        height: 100%;
         border: 1px solid #00000033;
         flex: 1;
         padding: 1rem;
         margin: 1rem;
         textarea {
+            height: 100%;
             flex: 1;
             border: none;
             outline: none;
@@ -20,9 +22,15 @@
         }
     }
     .renderer {
+        display: flex;
+        flex-direction: column;
         border: 1px solid #00000033;
         flex: 1;
         margin: 1rem;
         padding: 1rem;
+        .react-markdown {
+            flex: 1;
+            overflow-y: auto;
+        }
     }
 }

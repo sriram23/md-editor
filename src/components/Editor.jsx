@@ -31,10 +31,26 @@ const Editor = () => {
       }))
     }
   }
+
+  const insertCode = () => {
+    const value = md.value
+    const position = md.caret
+    const code = `\`\`\` Javascript -- Change your language
+\`\`\``
+    const finalValue = value.substring(0,position) + code + "\n" + value.substring(position)
+    setMd((pr) => ({
+      ...pr,
+      value: finalValue
+    }))
+  }
+  
   return (
     <div className="editor-container">
       <div className="editor">
         <h2>Editor</h2>
+        <div className="button-container">
+          <button onClick={insertCode}>{"</>"}</button>
+        </div>
         <textarea
           className="text-area"
           ref={textRef}

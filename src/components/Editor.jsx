@@ -11,7 +11,8 @@ const Editor = () => {
     Prism.highlightAll();
   });
   useEffect(() => {
-    textRef.current.selectionStart = md.caret 
+    textRef.current.selectionStart = md.caret
+    textRef.current.selectionEnd = md.caret 
   }, [md])
   const handleKeyChange = (e) => {
     setMd({value: e.target.value, caret: e.target.selectionStart, target: e.target})
@@ -23,25 +24,28 @@ const Editor = () => {
       e.preventDefault()
       let newText = content.substring(0, caret) + '\t' + content.substring(caret);
       setMd({value: newText, caret: caret+1, target: e.target});
-    } else {
-      setMd((pr) => ({
-        ...pr,
-        caret,
-        target: e.target
-      }))
-    }
+    } 
   }
 
   const insertCode = () => {
     const value = md.value
     const position = md.caret
-    const code = `\`\`\` Javascript -- Change your language
+    if(textRef.current.selectionStart === textRef.current.selectionEnd){
+      const code = `\`\`\` Javascript -- Change your language
 \`\`\``
     const finalValue = value.substring(0,position) + code + "\n" + value.substring(position)
     setMd((pr) => ({
       ...pr,
       value: finalValue
     }))
+    } else {
+      const finalValue = value.substring(0, textRef.current.selectionStart)+ "``` Javascript\n" + value.substring(textRef.current.selectionStart, textRef.current.selectionEnd) + "\n```" + value.substring(textRef.current.selectionEnd)
+      setMd((pr) => ({
+      ...pr,
+      value: finalValue
+    }))
+    } 
+    
   }
   
   return (

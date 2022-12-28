@@ -5,55 +5,147 @@ import Prism from "prismjs";
 import "./Editor.scss";
 
 const Editor = () => {
-  const [md, setMd] = useState({value: "", caret: -1, target: null});
-  const textRef =  useRef()
+  const [md, setMd] = useState({ value: "", caret: -1, target: null });
+  const textRef = useRef();
+  const BUTTONS = [
+    {
+      id: 1,
+      value: "code",
+      label: "</>",
+    },
+    {
+      id: 2,
+      value: "bold",
+      label: (<b>{"\u0042"}</b>),
+    },
+    {
+      id: 3,
+      value: "italics",
+      label: (<i>{"\u0069"}</i>),
+    },
+    {
+      id: 4,
+      value: "quote",
+      label: "\u0022",
+    },
+    {
+      id: 5,
+      value: "ol",
+      label: "1",
+    },
+    {
+      id: 6,
+      value: "ul",
+      label: "\u2022",
+    },
+    {
+      id: 7,
+      value: "link",
+      label: "Link",
+    },
+    {
+      id: 8,
+      value: "img",
+      label: "Image",
+    },
+    // TODO: Extended syntax are not working. Need to fix.
+    // {
+    //   id: 9,
+    //   value: "strk",
+    //   label: "Strike through"
+    // },
+    // {
+    //   id: 10,
+    //   value: "check",
+    //   label: "Task List"
+    // }
+  ];
   useEffect(() => {
     Prism.highlightAll();
   });
   useEffect(() => {
-    textRef.current.selectionStart = md.caret
-    textRef.current.selectionEnd = md.caret 
-  }, [md])
+    textRef.current.selectionStart = md.caret;
+    textRef.current.selectionEnd = md.caret;
+  }, [md]);
   const handleKeyChange = (e) => {
-    setMd({value: e.target.value, caret: e.target.selectionStart, target: e.target})
-  }
+    setMd({
+      value: e.target.value,
+      caret: e.target.selectionStart,
+      target: e.target,
+    });
+  };
   const handleTab = (e) => {
     let content = e.target.value;
-    let caret   = e.target.selectionStart;
-    if(e.key === "Tab"){
-      e.preventDefault()
-      let newText = content.substring(0, caret) + '\t' + content.substring(caret);
-      setMd({value: newText, caret: caret+1, target: e.target});
-    } 
-  }
+    let caret = e.target.selectionStart;
+    if (e.key === "Tab") {
+      e.preventDefault();
+      let newText =
+        content.substring(0, caret) + "\t" + content.substring(caret);
+      setMd({ value: newText, caret: caret + 1, target: e.target });
+    }
+  };
 
-  const insertCode = () => {
-    const value = md.value
-    const position = md.caret
-    if(textRef.current.selectionStart === textRef.current.selectionEnd){
-      const code = `\`\`\` Javascript -- Change your language
-\`\`\``
-    const finalValue = value.substring(0,position) + code + "\n" + value.substring(position)
-    setMd((pr) => ({
-      ...pr,
-      value: finalValue
-    }))
-    } else {
-      const finalValue = value.substring(0, textRef.current.selectionStart)+ "``` Javascript\n" + value.substring(textRef.current.selectionStart, textRef.current.selectionEnd) + "\n```" + value.substring(textRef.current.selectionEnd)
+  const getSyntax = (type) => {
+    const syntax = {
+      code: `\`\`\` Javascript -- Change your language
+\`\`\``,
+      bold: "__Bold__",
+      italics: "_italics_",
+      quote: "> Quote",
+      ol: "1. ",
+      ul: "- ",
+      link: "[Link](https://link.com)",
+      img: "![Alt](https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/1024px-Markdown-mark.svg.png)",
+      strk: "~~Strike Through~~",
+      check: " - [] Check List",
+    };
+    return syntax[type];
+  };
+
+  const insertTemplate = (type) => {
+    const value = md.value;
+    const position = md.caret;
+    if (textRef.current.selectionStart === textRef.current.selectionEnd) {
+      const syntax = getSyntax(type);
+      const finalValue =
+        value.substring(0, position) +
+        syntax +
+        "\n" +
+        value.substring(position)+"\n";
       setMd((pr) => ({
-      ...pr,
-      value: finalValue
-    }))
-    } 
-    
-  }
-  
+        ...pr,
+        // TODO: Need to check why 3 works and lesser values doesn't work
+        caret: pr.caret + syntax.length + 3,
+        value: finalValue,
+      }));
+    } else {
+      const finalValue =
+        value.substring(0, textRef.current.selectionStart) +
+        "``` Javascript\n" +
+        value.substring(
+          textRef.current.selectionStart,
+          textRef.current.selectionEnd
+        ) +
+        "\n```" +
+        value.substring(textRef.current.selectionEnd);
+      setMd((pr) => ({
+        ...pr,
+        value: finalValue,
+      }));
+    }
+  };
+
   return (
     <div className="editor-container">
       <div className="editor">
         <h2>Editor</h2>
         <div className="button-container">
-          <button onClick={insertCode}>{"</>"}</button>
+          {/* <button onClick={() => insertTemplate("code")}>{"</>"}</button> */}
+          {BUTTONS.map((btn) => (
+            <button key={btn.id} onClick={() => insertTemplate(btn.value)}>
+              {btn.label}
+            </button>
+          ))}
         </div>
         <textarea
           className="text-area"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import Prism from "prismjs";
+import remarkGfm from 'remark-gfm'
 
 import "./Editor.scss";
 
@@ -48,17 +49,21 @@ const Editor = () => {
       value: "img",
       label: "Image",
     },
-    // TODO: Extended syntax are not working. Need to fix.
-    // {
-    //   id: 9,
-    //   value: "strk",
-    //   label: "Strike through"
-    // },
-    // {
-    //   id: 10,
-    //   value: "check",
-    //   label: "Task List"
-    // }
+    {
+      id: 9,
+      value: "strk",
+      label: "Strike through"
+    },
+    {
+      id: 10,
+      value: "check",
+      label: "Task List"
+    },
+    {
+      id: 11,
+      value: "table",
+      label: "Table"
+    }
   ];
   useEffect(() => {
     Prism.highlightAll();
@@ -97,7 +102,11 @@ const Editor = () => {
       link: "[Link](https://link.com)",
       img: "![Alt](https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/1024px-Markdown-mark.svg.png)",
       strk: "~~Strike Through~~",
-      check: " - [] Check List",
+      check: ` - [ ] Item 1
+ - [x] Item 2`,
+      table: `|Heading 1| Heading 2 |
+|----------|----------|
+|Value1 | Value2 `
     };
     return syntax[type];
   };
@@ -158,7 +167,7 @@ const Editor = () => {
       </div>
       <div className="renderer">
         <h2>Preview</h2>
-        <ReactMarkdown className="react-markdown">{md.value}</ReactMarkdown>
+        <ReactMarkdown className="react-markdown" remarkPlugins={[remarkGfm]}>{md.value}</ReactMarkdown>
       </div>
     </div>
   );

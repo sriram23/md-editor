@@ -18,6 +18,21 @@
             outline: none;
             resize: none;
         }
+        .button-container {
+            display: flex;
+            button {
+                background: transparent;
+                border: 1px solid transparent;
+                margin: 0.25rem;
+                padding: 0.25rem;
+                border-radius: 0.25rem;
+                min-width: 3rem;
+                cursor: pointer;
+                &:hover {
+                    border: 1px solid gray;
+                }
+            }
+        }
     }
     .renderer {
         display: flex;

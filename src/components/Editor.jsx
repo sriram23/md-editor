@@ -167,7 +167,7 @@ const Editor = () => {
       </div>
       <div className="renderer">
         <h2>Preview</h2>
-        <ReactMarkdown className="react-markdown" remarkPlugins={[remarkGfm]}>{md.value}</ReactMarkdown>
+        <ReactMarkdown key={md.value} className="react-markdown" remarkPlugins={[remarkGfm]}>{md.value}</ReactMarkdown>
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 {
     "presets": ["@babel/preset-env", "@babel/preset-react"],
-    // "plugins": [
-    //     ["prismjs", {
-    //         "languages": ["javascript", "css", "markup", "c", "python", "shell"],
-    //         "plugins": ["copy-to-clipboard", "line-numbers", "show-language"],
-    //         "theme": "tomorrow",
-    //         "css": true
-    //     }]
-    // ]
+    // TODO: Fix the code snippet
+    "plugins": [
+        ["prismjs", {
+            "languages": ["javascript", "css", "markup", "c", "python", "shell", "markdown"],
+            "plugins": ["copy-to-clipboard", "line-numbers", "show-language"],
+            "theme": "tomorrow",
+            "css": true
+        }]
+    ]
 }

@@ -1,80 +1,85 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+// Prism for code keyword highlight
 import Prism from "prismjs";
-import remarkGfm from 'remark-gfm'
-
+// remarkGfm for extended MD
+import remarkGfm from "remark-gfm";
+// rehypeRaw to accept html
+import rehypeRaw from "rehype-raw";
 import "./Editor.scss";
 
 const Editor = () => {
   const [md, setMd] = useState({ value: "", caret: -1, target: null });
+  const [splitView, setSplitView] = useState(true);
+  const [showEditor, setShowEditor] = useState(true);
   const textRef = useRef();
   const BUTTONS = [
     {
       id: 1,
       value: "code",
       label: "</>",
-      tooltip: "Insert Code snippet"
+      tooltip: "Insert Code snippet",
     },
     {
       id: 2,
       value: "bold",
-      label: (<b>{"\u0042"}</b>),
-      tooltip: "Insert Bold text"
+      label: <b>{"\u0042"}</b>,
+      tooltip: "Insert Bold text",
     },
     {
       id: 3,
       value: "italics",
-      label: (<i>{"\u0069"}</i>),
-      tooltip: "Insert Italics text"
+      label: <i>{"\u0069"}</i>,
+      tooltip: "Insert Italics text",
     },
     {
       id: 4,
       value: "quote",
       label: "“ ” ",
-      tooltip: "Insert Quote"
+      tooltip: "Insert Quote",
     },
     {
       id: 5,
       value: "ol",
-      label: (<div>1. ___</div>),
-      tooltip: "Insert orderd list"
+      label: <div>1. ___</div>,
+      tooltip: "Insert orderd list",
     },
     {
       id: 6,
       value: "ul",
-      label: (<b>{"\u2022 ___"}</b>),
-      tooltip: "Insert un-ordered list"
+      label: <b>{"\u2022 ___"}</b>,
+      tooltip: "Insert un-ordered list",
     },
     {
       id: 7,
       value: "link",
       label: "🔗",
-      tooltip: "Insert Link"
+      tooltip: "Insert Link",
     },
     {
       id: 8,
       value: "img",
       label: "🖼",
-      tooltip: "Insert image"
+      tooltip: "Insert image",
     },
     {
       id: 9,
       value: "strk",
-      label: (<strike>"Strike"</strike>),
-      tooltip: "Insert Strikethrough"
+      label: <strike>"Strike"</strike>,
+      tooltip: "Insert Strikethrough",
     },
     {
       id: 10,
       value: "check",
       label: "☑",
-      tooltip: "Insert Checklist"
+      tooltip: "Insert Checklist",
     },
     {
       id: 11,
       value: "table",
       label: "□□□□",
-      tooltip: "Insert table"
-    }
+      tooltip: "Insert table",
+    },
   ];
   useEffect(() => {
     Prism.highlightAll();
@@ -117,7 +122,7 @@ const Editor = () => {
  - [x] Item 2`,
       table: `|Heading 1| Heading 2 |
 |----------|----------|
-|Value1 | Value2 `
+|Value1 | Value2 `,
     };
     return syntax[type];
   };
@@ -131,7 +136,8 @@ const Editor = () => {
         value.substring(0, position) +
         syntax +
         "\n" +
-        value.substring(position)+"\n";
+        value.substring(position) +
+        "\n";
       setMd((pr) => ({
         ...pr,
         // TODO: Need to check why 3 works and lesser values doesn't work
@@ -156,28 +162,63 @@ const Editor = () => {
   };
 
   return (
-    <div className="editor-container">
-      <div className="editor">
-        <h2>Editor</h2>
-        <div className="button-container">
-          {BUTTONS.map((btn) => (
-            <button className="syntax-buttons" key={btn.id} title={btn.tooltip} onClick={() => insertTemplate(btn.value)}>
-              {btn.label}
-            </button>
-          ))}
-        </div>
-        <textarea
-          className="text-area"
-          ref={textRef}
-          placeholder="Your markdown content goes here..."
-          onChange={handleKeyChange}
-          onKeyDown={handleTab}
-          value={md.value}
-        ></textarea>
-      </div>
-      <div className="renderer">
-        <h2>Preview</h2>
-        <ReactMarkdown key={md.value} className="react-markdown" remarkPlugins={[remarkGfm]}>{md.value}</ReactMarkdown>
+    <div className="main-editor-container">
+      <button
+        onClick={() => {
+          setSplitView(!splitView);
+        }}
+      >
+        {splitView ? "Show Unified view" : "Show Split view"}
+      </button>
+      {!splitView && (
+        <button
+          onClick={() => {
+            setShowEditor(!showEditor);
+          }}
+        >
+          {showEditor ? "Preview" : "Editor"}
+        </button>
+      )}
+      <div className="editor-container">
+        {((!splitView && showEditor) || splitView) && (
+          <div className="editor">
+            <h2>Editor</h2>
+            <div className="button-container">
+              {BUTTONS.map((btn) => (
+                <button
+                  className="syntax-buttons"
+                  key={btn.id}
+                  title={btn.tooltip}
+                  onClick={() => insertTemplate(btn.value)}
+                >
+                  {btn.label}
+                </button>
+              ))}
+            </div>
+            <textarea
+              className="text-area"
+              ref={textRef}
+              placeholder="Your markdown content goes here..."
+              onChange={handleKeyChange}
+              onKeyDown={handleTab}
+              value={md.value}
+            ></textarea>
+          </div>
+        )}
+
+        {((!splitView && !showEditor) || splitView) && (
+          <div className="renderer">
+            <h2>Preview</h2>
+            <ReactMarkdown
+              key={md.value}
+              className="react-markdown"
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+            >
+              {md.value}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   );

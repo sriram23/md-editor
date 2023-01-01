@@ -1,7 +1,11 @@
+.main-editor-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 .editor-container {
     flex: 1;
     display: flex;
-    height: 100vh;
+    height: 100%;
     pre {
         border-radius: 1rem;
     }
@@ -46,4 +50,5 @@
             overflow-y: auto;
         }
     }
+}
 }

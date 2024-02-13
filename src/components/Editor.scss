@@ -1,7 +1,7 @@
 .main-editor-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
 .editor-container {
     flex: 1;
     display: flex;
@@ -15,25 +15,32 @@
         flex: 1;
         padding: 1rem;
         margin: 1rem;
+        background: #ffffff33;
+        border-radius: 1rem;
+        color: white;
         textarea {
             flex: 1;
             border: none;
             outline: none;
             resize: none;
+            border-radius: 1rem;
+            padding: 1rem;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
             button {
-                background: transparent;
-                border: 1px solid transparent;
-                margin: 0.25rem;
+                color: white;
+                background: #ffffff33;
+                border: 1px solid #ffffff88;
+                margin: 0.5rem 0.25rem;
                 padding: 0.25rem;
-                border-radius: 0.25rem;
+                border-radius: 0.5rem;
                 min-width: 3rem;
                 cursor: pointer;
                 &:hover {
-                    border: 1px solid gray;
+                    border: 1px solid white;
+                    background: transparent;
                 }
             }
         }
@@ -45,7 +52,15 @@
         flex: 1;
         margin: 1rem;
         padding: 1rem;
+        border-radius: 1rem;
+        background: #ffffff33;
+        color: white;
         .react-markdown {
+            color: black;
+            background: #ffffff88;
+            border: 1px solid white;
+            border-radius: 1rem;
+            padding: 1rem;
             flex: 1;
             overflow-y: auto;
         }

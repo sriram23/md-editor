@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import "./Editor.scss";
 
-const Editor = () => {
+const Editor = ({ onCopy }) => {
   const [md, setMd] = useState({ value: "", caret: -1, target: null });
   const [splitView, setSplitView] = useState(true);
   const [showEditor, setShowEditor] = useState(true);
@@ -160,40 +160,62 @@ const Editor = () => {
       }));
     }
   };
+  const handleCopy = (e) => {
+    if (textRef.current) {
+      navigator.clipboard.writeText(textRef.current.value);
+      onCopy("MD Copied to Clipboard");
+    }
+  };
 
   return (
     <div className="main-editor-container">
-      <button
-        onClick={() => {
-          setSplitView(!splitView);
-        }}
-      >
-        {splitView ? "Show Unified view" : "Show Split view"}
-      </button>
-      {!splitView && (
+      <div className="editor-header">
+        <h1>Markdown Editor</h1>
+        <div className="control-button-container">
         <button
+          className="control-button"
           onClick={() => {
-            setShowEditor(!showEditor);
+            setSplitView(!splitView);
           }}
         >
-          {showEditor ? "Preview" : "Editor"}
+          {splitView ? "Show Unified view" : "Show Split view"}
         </button>
-      )}
+        {!splitView && (
+          <button
+            className="control-button"
+            onClick={() => {
+              setShowEditor(!showEditor);
+            }}
+          >
+            {showEditor ? "Preview" : "Editor"}
+          </button>
+        )}
+        </div>
+      </div>
       <div className="editor-container">
         {((!splitView && showEditor) || splitView) && (
           <div className="editor">
             <h2>Editor</h2>
-            <div className="button-container">
-              {BUTTONS.map((btn) => (
-                <button
-                  className="syntax-buttons"
-                  key={btn.id}
-                  title={btn.tooltip}
-                  onClick={() => insertTemplate(btn.value)}
-                >
-                  {btn.label}
-                </button>
-              ))}
+            <div className="button-section">
+              <div className="button-container">
+                {BUTTONS.map((btn) => (
+                  <button
+                    className="syntax-buttons"
+                    key={btn.id}
+                    title={btn.tooltip}
+                    onClick={() => insertTemplate(btn.value)}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                className="copy-button"
+                title="Copy the markdown to clipboard"
+                onClick={handleCopy}
+              >
+                📄Copy
+              </button>
             </div>
             <textarea
               className="text-area"

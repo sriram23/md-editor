@@ -6,17 +6,19 @@ body {
 .main-container {
     display: flex;
     flex-direction: column;
+    position: relative;
     min-height: 100vh;
     background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
 }
-.alert {
-    flex: 0;
-    color: red;
-    margin: 0.5rem;
-    padding: 1rem;
-    border: 1px solid red;
+.toast {
+    position: absolute;
+    bottom: 5rem;
+    left: 45%;
+    background: #1F1717;
+    color: #F6F1F1;
+    z-index: 1000;
+    padding: 0.5rem;
     border-radius: 0.5rem;
-    background: #ff000033;
 }
 * {
     font-family: "Montserrat", sans-serif;

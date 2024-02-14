@@ -1,4 +1,5 @@
-# A simple Markdown editor
+# Markdown editor
+[Try it here](https://md-editor.web.app/)
 
 Trying to create a simple markdown editor, where we can write some markdown and preview it.
 
@@ -10,18 +11,10 @@ Trying to create a simple markdown editor, where we can write some markdown and 
 
 ## Screenshot
 ### Split View
-<img width="959" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/bc3cdd14-b4d7-46cb-8a45-a24d3f7dca11">
+<img width="952" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/4dea1f6d-4f26-4cb0-8298-9b3dee826723">
 
 ### Editor View
-<img width="961" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/1cfb1294-3702-403b-8edd-76f178fa3168">
+<img width="958" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/9c12e1a7-85ba-4bb9-a346-f6c8812b4ea8">
 
 ### Preview
-<img width="961" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/96b58f9c-1d3a-4dac-8fc8-e285f278cbd2">
-
-### Old view
-![Preview](https://user-images.githubusercontent.com/18396996/209428063-6d7d80d1-afeb-4a36-a9ab-79fee2617654.png)
-
-
-## Link
-
-<https://md-editor.web.app/>
+<img width="953" alt="image" src="https://github.com/sriram23/md-editor/assets/18396996/f700893e-9270-487e-881b-5b8ef08e6273">
